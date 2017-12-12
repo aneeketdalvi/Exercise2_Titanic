@@ -1,0 +1,49 @@
+---
+title: "Exercise2_Titanic"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the Exercise 2 of the Data Wrangling section. The dataset used is called as “titanic”. 
+
+# Load the dataset in R:
+
+```{r}
+titanic <- read.csv("F:/Springboard/Data Wrangling/titanic_original.csv", header = TRUE)
+```
+
+# Install following packages to munge data:
+
+```{r}
+install.packages("dplyr")
+library(dplyr)
+```
+
+# 1: Fill in the missing values for embarked with 'S' i.e. Southampton
+
+```{r}
+titanic <- titanic %>% mutate(embarked = ifelse(is.null(embarked), 'S', embarked))
+```
+
+# 2: Calculate the mean of Age and fill in the missing values
+
+```{r}
+titanic <- titanic %>% mutate(age = ifelse(is.na(age), mean(age, na.rm = TRUE), age))
+```
+
+# 3: Fill in the missing values for Lifeboat with "NA"
+
+```{r}
+titanic <- titanic %>% mutate(boat = sub("^$", "NA", boat))
+```
+
+# 4: Create new column "has_cabin_number"
+
+```{r}
+titanic <- titanic %>% mutate(has_cabin_number = ifelse(cabin == "", 0, 1))
+```
+
+# Export new clean dataset as csv:
+
+```{r}
+write.csv(titanic, "F:/Springboard/Data Wrangling/Exercise2_Titanic/titanic_clean.csv")
+```
